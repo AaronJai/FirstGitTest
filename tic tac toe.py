@@ -66,21 +66,18 @@ while True:
     print_board()
     if player_choice == 'P':
         player_move('X')
+        print_board()  # add this line to show board after player 1's move
         if is_victory('X'):
-            print_board()
             print("X wins! Congratulations!")
             break
         elif is_draw():
-            print_board()
             print("It's a draw!")
             break
         player_move('O')
         if is_victory('O'):
-            print_board()
             print("O wins! Congratulations!")
             break
         elif is_draw():
-            print_board()
             print("It's a draw!")
             break
     elif player_choice == 'C':
