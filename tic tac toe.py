@@ -1,5 +1,5 @@
 import random
-
+# test
 board = [' ' for x in range(9)]
 
 def print_board():
@@ -13,11 +13,7 @@ def print_board():
     print(row3)
     print()
 
-def player_move(icon):
-    if icon == 'X':
-        number = 1
-    elif icon == 'O':
-        number = 2
+def player_move(icon, number):
     print("Your turn player {}".format(number))
     choice = int(input("Enter your move (1-9): ").strip())
     if board[choice - 1] == ' ':
@@ -26,11 +22,7 @@ def player_move(icon):
         print()
         print("That space is already taken!")
 
-def computer_move(icon):
-    if icon == 'X':
-        number = 2
-    elif icon == 'O':
-        number = 1
+def computer_move(icon, number):
     print("Your turn player {}".format(number))
     while True:
         choice = random.randint(0, 8)
@@ -39,17 +31,11 @@ def computer_move(icon):
             break
 
 def is_victory(icon):
-    if (board[0] == icon and board[1] == icon and board[2] == icon) or \
-       (board[3] == icon and board[4] == icon and board[5] == icon) or \
-       (board[6] == icon and board[7] == icon and board[8] == icon) or \
-       (board[0] == icon and board[3] == icon and board[6] == icon) or \
-       (board[1] == icon and board[4] == icon and board[7] == icon) or \
-       (board[2] == icon and board[5] == icon and board[8] == icon) or \
-       (board[0] == icon and board[4] == icon and board[8] == icon) or \
-       (board[2] == icon and board[4] == icon and board[6] == icon):
-        return True
-    else:
-        return False
+    wins = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
+    for win in wins:
+        if all(board[i] == icon for i in win):
+            return True
+    return False
 
 def is_draw():
     if ' ' not in board:
@@ -57,31 +43,34 @@ def is_draw():
     else:
         return False
 
-player_choice = input("Do you want to play against a player (P) or against the computer (C)? ")
-
+player_choice = ''
 while player_choice != 'P' and player_choice != 'C':
-    player_choice = input("Invalid input. Do you want to play against a player (P) or against the computer (C)? ")
+    player_choice = input("Do you want to play against a player (P) or against the computer (C)? ")
 
 while True:
     print_board()
     if player_choice == 'P':
-        player_move('X')
-        print_board()  # add this line to show board after player 1's move
+        player_move('X', 1)
+        print_board()
         if is_victory('X'):
+            print_board()
             print("X wins! Congratulations!")
             break
         elif is_draw():
+            print_board()
             print("It's a draw!")
             break
-        player_move('O')
+        player_move('O', 2)
         if is_victory('O'):
+            print_board()
             print("O wins! Congratulations!")
             break
         elif is_draw():
+            print_board()
             print("It's a draw!")
             break
     elif player_choice == 'C':
-        player_move('X')
+        player_move('X', 1)
         if is_victory('X'):
             print_board()
             print("X wins! Congratulations!")
@@ -90,7 +79,7 @@ while True:
             print_board()
             print("It's a draw!")
             break
-        computer_move('O')
+        computer_move('O', 2)
         if is_victory('O'):
             print_board()
             print("O wins! Congratulations computer!")
